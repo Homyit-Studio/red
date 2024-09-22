@@ -1,0 +1,2 @@
+user: admin
+password: red_123456
