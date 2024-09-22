@@ -92,9 +92,18 @@ class SloganAdmin(admin.ModelAdmin):
 
 @admin.register(Song)
 class SongAdmin(admin.ModelAdmin):
-    list_display = ('id','song_name','song_link','opern_image_list','introduction','cover_image')
+    list_display = ('id','song_name','song_link','image_list','introduction','cover')
     search_fields = ('song_name',)
     ordering = ('id',)
+    def image_list(self, obj):
+        ids = obj.opern_image_list.split(',')
+        links = Image.objects.filter(id__in=ids)
+        return format_html_join('', '<img src="{}" width="100" height="100" style="margin-right: 10px;" />',
+                                ((link,) for link in links))
+    def cover(self,obj):
+        return format_html('<img src="{}" width="100" height="100" />'.format(obj.cover_image))
+
+
 
 
 
